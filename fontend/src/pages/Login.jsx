@@ -1,21 +1,41 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // hàm xử lý sự kiện khi người dùng ấn nút đăng nhập, async gửi yêu cầu POST đến API
+  const [error, setError] = useState("");
+  const { login } = useAuth(); // lấy thông tin người dùng từ context
+  const navigate = useNavigate(); // dùng để chuyển hướng trang
+
+  // sự kiện xử lý khi người dùng ấn nút đăng nhập
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // nếu không có email hoặc password thì thông báo lỗi
     try {
-      // gửi yêu cầu POST đến API để xác thực người dùng
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "http://localhost:8000/api/auth/login",
         { email, password }
       );
-      console.log(response);
+      if (response.data.success) {
+        login(response.data.user);
+        // lưu token vào localStorage để xác thực người dùng
+        localStorage.setItem("token", response.data.token);
+        // nếu người dùng là admin thì chuyển hướng đến trang admin-dashboard và ngược lại chuyển hướng đến trang employee-dashboard
+        if (response.data.user.role === "admin") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/employee-dashboard");
+        }
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response && !error.response.data.success) {
+        setError(error.response.data.error);
+      } else {
+        setError("Đã có lỗi xảy ra. Vui lòng thử lại sau!");
+      }
     }
   };
   return (
@@ -26,7 +46,7 @@ const Login = () => {
       </h2>
       <div className="border shadow p-6 w-80 bg-white">
         <h2 className="text-2xl font-bold mb-4">Đăng nhập</h2>
-
+        {error && <p className="text-red-500">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700" htmlFor="email">
@@ -37,6 +57,7 @@ const Login = () => {
               className="w-full px-3 py-2 border text-gray-700 mt-1"
               placeholder="Nhập email"
               onChange={(e) => setEmail(e.target.value)}
+              required
             ></input>
           </div>
           <div className="mb-4">
@@ -48,18 +69,17 @@ const Login = () => {
               className="block text-gray-700 w-full px-3 py-2 border mt-1"
               placeholder="Nhập mật khẩu"
               onChange={(e) => setPassword(e.target.value)}
+              required
             ></input>
           </div>
-          <div className="mb-4 flex item-center">
-            <label className="inline-flex items-center">
-              <input type="checkbox" className="form-checkbox" />
-              <span className="ml-2">Nhớ mật khẩu</span>
-            </label>
-            <label className="ml-auto underline">Quên mật khẩu?</label>
+          <div className="mb-4">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white mt-3 py-2 rounded w-full mb-4"
+            >
+              Đăng nhập
+            </button>
           </div>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded w-full">
-            Đăng nhập
-          </button>
         </form>
       </div>
     </div>

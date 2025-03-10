@@ -8,15 +8,15 @@ const userRegister = async () => {
     const hashPassword = await bcrypt.hash("admin", 10); // Mã hóa mật khẩu
     // newUser là một đối tượng của User để tạo mới một user
     const newUser = new User({
-      // Đổi tên đối tượng thành User
-      name: "admin",
+      // Thông tin đăng nhập chỉ dành cho admin
+      name: "Admin",
       email: "admin@gmail.com",
       password: hashPassword,
       role: "admin", // role: quyền của user
     });
     await newUser.save(); // Lưu user vào database
   } catch (error) {
-    console.log(error); // Cải thiện thông báo lỗi
+    console.log(error);
   }
 };
 

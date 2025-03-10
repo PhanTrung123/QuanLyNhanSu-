@@ -1,20 +1,14 @@
 import express from "express";
 import cors from "cors";
-import mongoose from "mongoose";
-import connectToDatabase from "./db/db.js"; // Đảm bảo file này có chứa hàm kết nối
+import authRouter from "./routes/auth.js";
+import connectToDatabase from "./db/db.js";
 
-// Thiết lập thời gian chờ cho Mongoose
-mongoose.set("socketTimeoutMS", 60000); // Tăng thời gian chờ socket lên 60 giây
-mongoose.set("connectTimeoutMS", 60000); // Tăng thời gian chờ kết nối lên 60 giây
-
+connectToDatabase();
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use("/api/auth", authRouter); // Sử dụng router cho các yêu cầu API đến /api/auth
 
-// Kết nối đến MongoDB
-connectToDatabase();
-
-const PORT = process.env.PORT || 5000; // Dự phòng nếu biến môi trường PORT không có
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
 });
