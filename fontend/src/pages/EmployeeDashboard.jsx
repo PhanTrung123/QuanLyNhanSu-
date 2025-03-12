@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 
 const AdminDashboard = () => {
   const { user } = useAuth(); // lấy thông tin người dùng từ context

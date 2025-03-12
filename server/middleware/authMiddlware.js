@@ -2,7 +2,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-const checkUser = async (required, response, next) => {
+const checkUser = async (req, res, next) => {
   try {
     /**
         Lấy token từ Authorization trong header của request HTTP
@@ -10,9 +10,9 @@ const checkUser = async (required, response, next) => {
         Phần tử [0]: "Bearer"
         Phần tử [1]: token thực sự (cần lấy)
      */
-    const token = required.headers.authorization.split(" ")[1];
+    const token = req.headers.authorization.split(" ")[1];
     if (!token) {
-      return response
+      return res
         .status(404)
         .json({ success: false, error: "Thiếu token xác thực!" });
     }
@@ -20,22 +20,22 @@ const checkUser = async (required, response, next) => {
     // decoded : phân tích và đọc nội dung của mã JWT trong .env
     const decoded = await jwt.verify(token, process.env.JWT_KEY);
     if (!decoded) {
-      return response
+      return res
         .status(404)
         .json({ success: false, error: "Token không hợp lệ!" });
     }
 
     const user = await User.findById({ _id: decoded._id }).select("-password");
     if (!user) {
-      return response
+      return res
         .status(404)
         .json({ success: false, error: "Người dùng không tồn tại!" });
     }
 
-    required.user = user;
+    req.user = user;
     next();
   } catch (error) {
-    return response
+    return res
       .status(500)
       .json({ success: false, error: "Lỗi máy chủ, vui lòng thử lại sau!" });
   }

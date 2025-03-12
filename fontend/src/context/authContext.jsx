@@ -4,9 +4,9 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 const userContext = createContext();
 
-const authContext = ({ children }) => {
+const AuthContext = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   /**
    Server kiểm tra Token:
@@ -16,33 +16,37 @@ const authContext = ({ children }) => {
  */
   useEffect(() => {
     const checkUser = async () => {
+      setLoading(true);
       try {
         const token = localStorage.getItem("token");
         if (token) {
           const response = await axios.get(
-            "http://localhost:8000/api/auth/check",
+            "http://localhost:8000/api/auth/verify",
             {
               headers: {
-                Authorization: `Bearer ${token} `, //gửi token trong header HTTP để xác thực người dùng khi gọi API
+                Authorization: `Bearer ${token}`,
               },
             }
           );
+          console.log(response);
           if (response.data.success) {
-            setUser(response.data.user); // Nếu xác thực thành công, lưu user
+            setUser(response.data.user);
+          } else {
+            setUser(null);
           }
         } else {
-          setUser(null); // Nếu không có token, xóa user
+          setUser(null);
         }
       } catch (error) {
-        if (error.response && !error.response.data.error) {
-          setUser(null); // Nếu lỗi, xóa user
-        }
+        console.log(error);
+        setUser(null);
       } finally {
-        setLoading(false); // Dừng trạng thái loading sau khi kiểm tra xong
+        setLoading(false);
       }
     };
+
     checkUser();
-  }, []);
+  }, [localStorage.getItem("token")]);
 
   // login để lưu thông tin người dùng vào state
   const login = (user) => {
@@ -65,4 +69,4 @@ const authContext = ({ children }) => {
 
 // truy cập thông tin người dùng từ context (userContext) để sử dụng
 export const useAuth = () => useContext(userContext);
-export default authContext;
+export default AuthContext;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -40,8 +40,8 @@ const Login = () => {
   };
   return (
     // tạo giao diện đăng nhập
-    <div className="flex flex-col items-center h-screen justify-center bg-gradient-to-b from-blue-500 from-50% to-gray-100 to-50% space-y-6">
-      <h2 className="font-itim text-3xl text-white">
+    <div className="flex flex-col items-center h-screen justify-center bg-gradient-to-b from-[#2a3f54] from-1/2 to-gray-100 to-1/2 space-y-6">
+      <h2 className="font-itim text-4xl text-white">
         Hệ thống quản lý nhân sự
       </h2>
       <div className="border shadow p-6 w-80 bg-white">
@@ -75,7 +75,7 @@ const Login = () => {
           <div className="mb-4">
             <button
               type="submit"
-              className="bg-blue-500 text-white mt-3 py-2 rounded w-full mb-4"
+              className="bg-[#2a3f54] text-white mt-3 py-2 rounded w-full mb-4"
             >
               Đăng nhập
             </button>
