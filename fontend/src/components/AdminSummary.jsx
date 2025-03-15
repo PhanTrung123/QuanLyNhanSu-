@@ -12,7 +12,7 @@ import {
 
 const AdminSummary = () => {
   return (
-    <div className="p-6 bg-[#e5e5e5] h-screen ">
+    <div className="p-6  ">
       <h3 className="font-bold  text-2xl  ">Tổng Quan Hệ Thống Nhân Sự</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
         <SummaryCard

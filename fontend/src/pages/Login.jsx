@@ -75,7 +75,7 @@ const Login = () => {
           <div className="mb-4">
             <button
               type="submit"
-              className="bg-[#2a3f54] text-white mt-3 py-2 rounded w-full mb-4"
+              className="bg-[#2a3f54] text-white mt-3 py-2 rounded-xl w-full mb-4"
             >
               Đăng nhập
             </button>
