@@ -8,6 +8,20 @@ import axios from "axios";
 const DepartmentList = () => {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const onDelete = (id) => {
+    setDepartments((prevDepartments) => {
+      let seriNumber = 1;
+      return prevDepartments
+        .filter((department) => department._id !== id)
+        .map((department) => ({
+          ...department,
+          seriNumber: seriNumber++,
+          action: <DepartmentBtns Id={department._id} onDelete={onDelete} />,
+        }));
+    });
+  };
+
   useEffect(() => {
     // lấy dữ liệu từ các phòng ban đã được thêm
     const fetchDepartments = async () => {
@@ -24,7 +38,7 @@ const DepartmentList = () => {
             _id: department._id,
             seriNumber: seriNumber++,
             department_name: department.department_name,
-            action: <DepartmentBtns _id={department._id} />,
+            action: <DepartmentBtns Id={department._id} onDelete={onDelete} />,
           }));
           setDepartments(data);
         }

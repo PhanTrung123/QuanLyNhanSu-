@@ -5,7 +5,7 @@ const getDepartments = async (req, res) => {
     const departments = await Department.find();
     return res.status(200).json({ success: true, departments });
   } catch (error) {
-    return res.status(500).json({ success: false, error: "Lỗi máy chủ!" });
+    return res.status(500).json({ success: false, error: "Lỗi máy chủ !" });
   }
 };
 
@@ -32,4 +32,56 @@ const addDepartment = async (req, res) => {
       .json({ success: false, error: "Lỗi máy chủ khi thêm phòng ban!" });
   }
 };
-export { addDepartment, getDepartments };
+
+const getDepartment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const department = await Department.findById({ _id: id });
+    return res.status(200).json({ success: true, department });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: "Lỗi máy chủ!" });
+  }
+};
+
+const updateDepartment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { department_name, desc } = req.body;
+    const updateDepartment = await Department.findByIdAndUpdate(
+      { _id: id },
+      {
+        department_name,
+        desc,
+      }
+    );
+    return res.status(200).json({
+      success: true,
+      updateDepartment,
+      message: "Cập nhật thông tin thành công!",
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: "Lỗi máy chủ khi cập nhật!" });
+  }
+};
+
+const deleteDepartment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteDep = await Department.findByIdAndDelete({ _id: id });
+    return res.status(200).json({ success: true, deleteDep });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: "Lỗi máy chủ khi xóa" });
+  }
+};
+
+export {
+  addDepartment,
+  getDepartments,
+  getDepartment,
+  updateDepartment,
+  deleteDepartment,
+};
