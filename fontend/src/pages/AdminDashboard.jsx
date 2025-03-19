@@ -9,9 +9,9 @@ const AdminDashboard = () => {
   const { user } = useAuth();
 
   return (
-    <div className="flex bg-[#ebeaea] h-screen">
+    <div className="flex  min-h-screen">
       <AdminSidebar />
-      <div className="flex-1 ml-64 ">
+      <div className="flex-1 ml-64 bg-[#ebeaea]">
         <Navbar />
 
         {/* Hiển thị các thành phần con */}

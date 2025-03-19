@@ -8,6 +8,7 @@ import axios from "axios";
 const DepartmentList = () => {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState([]);
 
   const onDelete = (id) => {
     setDepartments((prevDepartments) => {
@@ -41,6 +42,7 @@ const DepartmentList = () => {
             action: <DepartmentBtns Id={department._id} onDelete={onDelete} />,
           }));
           setDepartments(data);
+          setSearch(data);
         }
       } catch (error) {
         if (error.response && !error.response.data.success) {
@@ -52,6 +54,16 @@ const DepartmentList = () => {
     };
     fetchDepartments();
   }, []);
+
+  // chức năng tìm kiếm (tra chữ cái đầu không phân biệt chữ hoa và thường)
+  const filterDepartments = (e) => {
+    const search = departments.filter((department) =>
+      department.department_name
+        .toLowerCase()
+        .startsWith(e.target.value.toLowerCase())
+    );
+    setSearch(search);
+  };
 
   return (
     <>
@@ -67,6 +79,7 @@ const DepartmentList = () => {
               className="px-4 py-1 border border-gray-500 rounded"
               type="text"
               placeholder="Tìm phòng ban: "
+              onChange={filterDepartments}
             />
             <Link
               className="px-4 py-1 bg-[#2a9a9b] rounded-xl text-white"
@@ -78,7 +91,7 @@ const DepartmentList = () => {
           <div className="mt-4 shadow-lg rounded-lg overflow-hidden ">
             <DataTable
               columns={Cols}
-              data={departments}
+              data={search}
               highlightOnHover
               pagination
               customStyles={{

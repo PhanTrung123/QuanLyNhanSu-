@@ -9,6 +9,7 @@ export const Cols = [
   {
     name: "Tên Phòng Ban",
     selector: (row) => row.department_name,
+    sortable: true,
   },
   {
     name: "Hành Động",

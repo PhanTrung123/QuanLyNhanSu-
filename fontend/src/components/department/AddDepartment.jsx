@@ -52,7 +52,7 @@ const AddDepartment = () => {
               Tên Phòng Ban
             </label>
             <input
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+              className="mt-1 w-full p-2 border border-gray-400 rounded-md"
               type="text"
               placeholder="Nhập tên phòng ban"
               name="department_name"
@@ -68,7 +68,7 @@ const AddDepartment = () => {
               Mô Tả
             </label>
             <textarea
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
               name="desc"
               placeholder="Nhập nội dung ..."
               onChange={handleChange}
