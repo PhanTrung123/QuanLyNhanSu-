@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { fetchDepartments } from "../../utils/EmployeeTable";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Add = () => {
   const [departments, setDepartments] = useState([]);
-  const [formInfo, setFormInfo] = useState({});
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     const getDepartments = async () => {
@@ -19,36 +19,44 @@ const Add = () => {
     const { name, value, files } = e.target;
     if (name === "image") {
       //nếu người dùng đang chọn ảnh từ một <input type="file" name="image" /> thì sẽ xử lý .
-      setFormInfo((prevData) => ({
+      setFormData((prevData) => ({
         ...prevData,
         [name]: files[0],
       }));
     } else {
       // Nếu không phải input file img (input text, email, password, ...), thì cập nhật trạng thái bằng value
-      setFormInfo((prevData) => ({
+      setFormData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
     }
   };
 
+  const navigate = useNavigate();
+
   //Hàm xử lý khi gửi biểu mẫu
-  const handleSubmit = async async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formDataObj = new FormData();
+    Object.keys(formData).forEach((key) => {
+      formDataObj.append(key, formData[key]);
+    });
+
     try {
       //axios.post() để gửi yêu cầu POST đến địa chỉ localhoast
       const res = await axios.post(
-        "http://localhost:8000/api/department/add",
-        department,
+        "http://localhost:8000/api/employee/add",
+        formDataObj,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      //Nếu res.data.success là true, điều hướng đến trang danh sách phòng ban (navigate("/admin-dashboard/departments"))
+      //Nếu res.data.success là true, điều hướng đến trang danh sách nhân viên (navigate("/admin-dashboard/employees"))
       if (res.data.success) {
-        navigate("/admin-dashboard/departments");
+        navigate("/admin-dashboard/employees");
       }
     } catch (error) {
       if (error.response && !error.response.data.success) {
@@ -56,8 +64,6 @@ const Add = () => {
       }
     }
   };
-
-  
 
   return (
     <div className="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md">
@@ -98,7 +104,7 @@ const Add = () => {
             </label>
             <input
               type="text"
-              name="employeeID"
+              name="employeeId"
               onChange={handleChange}
               placeholder="Nhập ID"
               className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
@@ -142,7 +148,7 @@ const Add = () => {
               Tình Trạng Hôn Nhân
             </label>
             <select
-              name="marital"
+              name="maritalStatus"
               onChange={handleChange}
               className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
               required
@@ -231,7 +237,7 @@ const Add = () => {
               <option value="" disabled>
                 --Chọn vai trò
               </option>
-              <option value="admin">Quản lý (Admin)</option>
+              <option value="admin">Admin</option>
               <option value="employee">Nhân viên</option>
             </select>
           </div>
