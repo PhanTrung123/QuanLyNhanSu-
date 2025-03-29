@@ -134,9 +134,7 @@ const Add = () => {
               className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
               required
             >
-              <option value="" disabled>
-                --Chọn giới tính
-              </option>
+              <option value="">--Chọn giới tính</option>
               <option value="male">Nam</option>
               <option value="female">Nữ</option>
               <option value="other">Khác</option>
@@ -153,9 +151,7 @@ const Add = () => {
               className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
               required
             >
-              <option value="" disabled>
-                --Chọn tình trạng
-              </option>
+              <option value="">--Chọn tình trạng</option>
               <option value="single">Độc thân</option>
               <option value="married">Đã kết hôn</option>
             </select>
@@ -185,9 +181,7 @@ const Add = () => {
               className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
               required
             >
-              <option value="" disabled>
-                --Chọn phòng ban
-              </option>
+              <option value="">--Chọn phòng ban</option>
               {departments.map((department) => (
                 <option key={department._id} value={department._id}>
                   {department.department_name}

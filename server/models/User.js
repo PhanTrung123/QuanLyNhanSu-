@@ -23,12 +23,6 @@ const userSchema = new mongoose.Schema(
     profileImage: {
       type: String,
     },
-
-    department: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Department",
-      required: true,
-    },
   },
   { timestamps: true }
 );

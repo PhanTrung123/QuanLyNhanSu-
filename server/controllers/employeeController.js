@@ -54,6 +54,7 @@ const addEmployee = async (req, res) => {
       password: hashPassword,
       role,
       profileImage: req.file ? req.file.filename : "",
+      department,
     });
     const savedUser = await newUser.save();
 
@@ -69,6 +70,7 @@ const addEmployee = async (req, res) => {
       salary,
     });
     await newEmployee.save();
+    console.log("Department received:", department);
     return res
       .status(200)
       .json({ success: true, message: "Đã tạo thành công!" });
@@ -80,4 +82,15 @@ const addEmployee = async (req, res) => {
   }
 };
 
-export { addEmployee, upload };
+const getEmployees = async (req, res) => {
+  try {
+    const employees = await Employee.find()
+      .populate("userId", { password: 0 })
+      .populate("department");
+    return res.status(200).json({ success: true, employees });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: "Lỗi máy chủ!" });
+  }
+};
+
+export { addEmployee, upload, getEmployees };
