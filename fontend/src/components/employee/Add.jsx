@@ -66,12 +66,15 @@ const Add = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md">
-      <h2 className="text-2xl font-bold">Thêm Thông Tin Nhân Viên</h2>
+    <div className="max-w-3xl mx-auto mt-12 bg-white p-10 rounded-lg shadow-lg">
+      <h2 className="text-3xl font-semibold text-gray-800 text-center mb-6">
+        Thêm Thông Tin Nhân Viên
+      </h2>
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Họ và Tên */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               Họ Và Tên
             </label>
             <input
@@ -79,13 +82,14 @@ const Add = () => {
               name="name"
               onChange={handleChange}
               placeholder="Nhập họ và tên"
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
 
+          {/* Email */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               Email
             </label>
             <input
@@ -93,13 +97,14 @@ const Add = () => {
               name="email"
               onChange={handleChange}
               placeholder="Nhập email"
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
 
+          {/* ID Nhân Viên */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               ID Nhân Viên
             </label>
             <input
@@ -107,31 +112,33 @@ const Add = () => {
               name="employeeId"
               onChange={handleChange}
               placeholder="Nhập ID"
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
 
+          {/* Năm Sinh */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               Năm Sinh
             </label>
             <input
               type="date"
               name="date"
               onChange={handleChange}
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
 
+          {/* Giới Tính */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               Giới Tính
             </label>
             <select
               name="gender"
               onChange={handleChange}
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             >
               <option value="">--Chọn giới tính</option>
@@ -141,14 +148,15 @@ const Add = () => {
             </select>
           </div>
 
+          {/* Tình Trạng Hôn Nhân */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               Tình Trạng Hôn Nhân
             </label>
             <select
               name="maritalStatus"
               onChange={handleChange}
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             >
               <option value="">--Chọn tình trạng</option>
@@ -157,8 +165,9 @@ const Add = () => {
             </select>
           </div>
 
+          {/* Chức Vụ */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               Chức Vụ
             </label>
             <input
@@ -166,19 +175,20 @@ const Add = () => {
               name="designation"
               onChange={handleChange}
               placeholder="Nhập chức vụ"
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
 
+          {/* Phòng Ban */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               Phòng Ban
             </label>
             <select
               name="department"
               onChange={handleChange}
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             >
               <option value="">--Chọn phòng ban</option>
@@ -190,8 +200,9 @@ const Add = () => {
             </select>
           </div>
 
+          {/* Lương */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               Lương
             </label>
             <input
@@ -199,13 +210,14 @@ const Add = () => {
               name="salary"
               onChange={handleChange}
               placeholder="Nhập lương"
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
 
+          {/* Mật Khẩu */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               Mật Khẩu
             </label>
             <input
@@ -213,19 +225,20 @@ const Add = () => {
               name="password"
               onChange={handleChange}
               placeholder="Nhập mật khẩu"
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
 
+          {/* Vai Trò */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               Vai Trò
             </label>
             <select
               name="role"
               onChange={handleChange}
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             >
               <option value="" disabled>
@@ -236,8 +249,9 @@ const Add = () => {
             </select>
           </div>
 
+          {/* Ảnh Đại Diện */}
           <div>
-            <label className="block font-medium text-gray-700 text-lg">
+            <label className="block font-medium text-gray-700 mb-2">
               Ảnh Đại Diện
             </label>
             <input
@@ -245,15 +259,16 @@ const Add = () => {
               name="image"
               onChange={handleChange}
               accept="image/*"
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
         </div>
 
-        <div className="flex justify-end">
+        {/* Nút Thêm Nhân Viên */}
+        <div className="flex justify-center mt-8">
           <button
             type="submit"
-            className="w-5/12 mt-6 bg-teal-600 text-white font-bold py-2 px-6 rounded-md hover:bg-teal-700 transition"
+            className="w-1/2 bg-teal-600 text-white font-semibold py-3 rounded-lg hover:bg-teal-700 transition duration-300 shadow-md"
           >
             Thêm Nhân Viên
           </button>

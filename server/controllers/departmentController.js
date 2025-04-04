@@ -39,7 +39,9 @@ const getDepartment = async (req, res) => {
     const department = await Department.findById({ _id: id });
     return res.status(200).json({ success: true, department });
   } catch (error) {
-    return res.status(500).json({ success: false, error: "Lỗi máy chủ!" });
+    return res
+      .status(500)
+      .json({ success: false, error: "Lỗi máy chủ khi lấy dữ liệu!" });
   }
 };
 

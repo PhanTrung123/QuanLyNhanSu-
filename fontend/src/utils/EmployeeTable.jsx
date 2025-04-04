@@ -70,7 +70,10 @@ export const EmployeeBtns = ({ Id }) => {
       >
         Xem
       </button>
-      <button className="px-4 py-1 bg-gray-500 text-white font-semibold rounded-md shadow hover:bg-gray-600 transition duration-300">
+      <button
+        className="px-4 py-1 bg-gray-500 text-white font-semibold rounded-md shadow hover:bg-gray-600 transition duration-300"
+        onClick={() => navigate(`/admin-dashboard/employees/edit/${Id}`)}
+      >
         Chỉnh sửa
       </button>
       <button className="px-4 py-1 bg-green-600 text-white font-semibold rounded-md shadow hover:bg-green-700 transition duration-300">

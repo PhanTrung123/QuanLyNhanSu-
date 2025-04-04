@@ -9,7 +9,7 @@ import { ColsEmp, EmployeeBtns } from "../../utils/EmployeeTable";
 const List = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState([]);
+  const [searchEmps, setSearchEmps] = useState([]);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -32,17 +32,14 @@ const List = () => {
               <img
                 width={40}
                 height={40}
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  objectFit: "cover",
-                }}
+                className="py-2"
                 src={`http://localhost:8000/${employee.userId.profileImage}`}
               />
             ),
             action: <EmployeeBtns Id={employee._id} />,
           }));
           setEmployees(data);
+          setSearchEmps(data);
           console.log(res.data);
         }
       } catch (error) {
@@ -55,6 +52,13 @@ const List = () => {
     fetchEmployees();
   }, []);
 
+  const filterEmployees = (e) => {
+    const searchEmps = employees.filter((employee) =>
+      employee.name.toLowerCase().startsWith(e.target.value.toLowerCase())
+    );
+    setSearchEmps(searchEmps);
+  };
+
   return (
     <div className="p-6">
       <div className="text-center">
@@ -64,7 +68,8 @@ const List = () => {
         <input
           className="px-4 py-1 border border-gray-500 rounded"
           type="text"
-          placeholder="Tìm phòng ban: "
+          placeholder="Tìm nhân viên: "
+          onChange={filterEmployees}
         />
         <Link
           className="px-4 py-1 bg-[#2a9a9b] rounded-xl text-white"
@@ -76,7 +81,7 @@ const List = () => {
       <div className="mt-4 shadow-lg rounded-lg overflow-hidden ">
         <DataTable
           columns={ColsEmp}
-          data={employees}
+          data={searchEmps}
           highlightOnHover
           pagination
           customStyles={{
