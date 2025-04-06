@@ -2,18 +2,14 @@ import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
 import axios from "axios";
-// import Employee from "../../../../server/models/Employee";
-// import Department from "../../../../server/models/Department";
 import { ColsEmp, EmployeeBtns } from "../../utils/EmployeeTable";
 
 const List = () => {
   const [employees, setEmployees] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [searchEmps, setSearchEmps] = useState([]);
 
   useEffect(() => {
     const fetchEmployees = async () => {
-      setLoading(true);
       try {
         const res = await axios.get("http://localhost:8000/api/employee", {
           headers: {

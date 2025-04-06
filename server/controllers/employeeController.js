@@ -93,6 +93,7 @@ const getEmployees = async (req, res) => {
   }
 };
 
+// getEmployee: lấy thông tin nhân viên theo id
 const getEmployee = async (req, res) => {
   const { id } = req.params;
   try {
@@ -108,4 +109,72 @@ const getEmployee = async (req, res) => {
   }
 };
 
-export { addEmployee, upload, getEmployees, getEmployee };
+const updateEmployee = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, maritalStatus, designation, department, salary } = req.body;
+
+    const employee = await Employee.findById({ _id: id });
+    if (!employee) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Không tìm thấy nhân viên!" });
+    }
+    const user = await User.findById({ _id: employee.userId });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Không tìm thấy người dùng!" });
+    }
+    const updatedUser = await User.findByIdAndUpdate(
+      { _id: employee.userId },
+      { name }
+    );
+    const updateEmployee = await Employee.findByIdAndUpdate(
+      { _id: id },
+      {
+        maritalStatus,
+        designation,
+        salary,
+        department,
+      }
+    );
+    if (!updateEmployee || !updatedUser) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Tài liệu không tồn tại!" });
+    }
+    return res
+      .status(200)
+      .json({ success: true, message: "Cập nhật thành công!", updateEmployee });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      error: "Lỗi máy chủ khi cập nhật nhân viên!",
+    });
+  }
+};
+
+// fetchEmployeeById: lấy danh sách nhân viên theo id phòng ban
+const fetchEmployeeById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const employees = await Employee.find({ department: id });
+    return res.status(200).json({ success: true, employees });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ success: false, error: "Lỗi máy chủ khi lấy dữ liệu!" });
+  }
+};
+
+export {
+  addEmployee,
+  upload,
+  getEmployees,
+  getEmployee,
+  updateEmployee,
+  fetchEmployeeById,
+};

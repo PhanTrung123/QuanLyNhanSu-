@@ -59,6 +59,29 @@ export const fetchDepartments = async () => {
   return departments;
 };
 
+// các phòng ban từ form salary
+export const getEmployees = async (id) => {
+  let employees;
+  try {
+    const res = await axios.get(
+      `http://localhost:8000/api/employee/department/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    if (res.data.success) {
+      employees = res.data.employees;
+    }
+  } catch (error) {
+    if (error.response && !error.response.data.success) {
+      alert(error.response.data.error);
+    }
+  }
+  return employees;
+};
+
 export const EmployeeBtns = ({ Id }) => {
   const navigate = useNavigate();
 
