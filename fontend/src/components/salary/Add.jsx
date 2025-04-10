@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { fetchDepartments, getEmployees } from "../../utils/EmployeeTable";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AddSalary = () => {
-  const [employees, setEmployees] = useState(null);
+  const [salary, setSalary] = useState({
+    employeeName: null,
+    basicSalary: 0,
+    allowances: 0,
+    deductions: 0,
+    payDate: null,
+  });
   const [departments, setDepartments] = useState(null);
-  const { id } = useParams();
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     const getDepartments = async () => {
@@ -16,31 +22,6 @@ const AddSalary = () => {
     getDepartments();
   }, []);
 
-  useEffect(() => {
-    const fetchEmployee = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:8000/api/employee/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        console.log(res.data);
-        if (res.data.success) {
-          setEmployee(res.data.employee);
-        }
-      } catch (error) {
-        console.log(error);
-        if (error.response && !error.response.data.success) {
-          alert(error.response.data.error);
-        }
-      }
-    };
-    fetchEmployee();
-  }, []);
-
   const handleDEpartmentChange = async (e) => {
     const employees = await getEmployees(e.target.value);
     setEmployees(employees);
@@ -48,7 +29,7 @@ const AddSalary = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEmployee((prevData) => ({
+    setSalary((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -60,16 +41,11 @@ const AddSalary = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formDataObj = new FormData();
-    Object.keys(formData).forEach((key) => {
-      formDataObj.append(key, formData[key]);
-    });
-
     try {
       //axios.post() để gửi yêu cầu POST đến địa chỉ localhoast
       const res = await axios.post(
-        "http://localhost:8000/api/employee/add",
-        formDataObj,
+        `http://localhost:8000/api/salary/add`,
+        salary,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -89,7 +65,7 @@ const AddSalary = () => {
 
   return (
     <>
-      {departments && employees ? (
+      {departments ? (
         <div className="max-w-3xl mx-auto mt-12 bg-white p-10 rounded-lg shadow-lg">
           <h2 className="text-3xl font-semibold text-gray-800 text-center mb-6">
             Thêm Lương Mới
@@ -97,18 +73,17 @@ const AddSalary = () => {
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Tên Phòng Ban */}
-              <div className="md:col-span-2">
+              <div>
                 <label className="block font-medium text-gray-700 mb-2">
                   Tên Phòng Ban
                 </label>
                 <select
                   name="department"
                   onChange={handleDEpartmentChange}
-                  value={employee.department}
                   className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
                   required
                 >
-                  <option value="">--Chọn phòng ban</option>
+                  <option value="">--Chọn phòng ban--</option>
                   {departments.map((department) => (
                     <option key={department._id} value={department._id}>
                       {department.department_name}
@@ -117,18 +92,18 @@ const AddSalary = () => {
                 </select>
               </div>
 
-              {/* Tên Nhân Viên */}
-              <div className="md:col-span-2">
+              {/* ID Nhân Viên */}
+              <div>
                 <label className="block font-medium text-gray-700 mb-2">
-                  Tên Nhân Viên
+                  ID Nhân Viên
                 </label>
                 <select
-                  name="department"
+                  name="employeeName"
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
                   required
                 >
-                  <option value="">--Chọn nhân viên</option>
+                  <option value="">--Chọn nhân viên--</option>
                   {employees.map((employee) => (
                     <option key={employee._id} value={employee._id}>
                       {employee.employeeId}
@@ -137,6 +112,7 @@ const AddSalary = () => {
                 </select>
               </div>
 
+              {/* Lương Cơ Bản */}
               <div>
                 <label className="block font-medium text-gray-700 mb-2">
                   Lương Cơ Bản
@@ -151,22 +127,25 @@ const AddSalary = () => {
                 />
               </div>
 
-              {/*   Allowances: phụ cấp  */}
+              {/* Phụ Cấp */}
               <div>
-                <label className="block font-medium text-gray-700 mb-2"></label>
+                <label className="block font-medium text-gray-700 mb-2">
+                  Phụ Cấp
+                </label>
                 <input
                   type="number"
                   name="allowances"
                   onChange={handleChange}
+                  placeholder="Nhập phụ cấp"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                   required
                 />
               </div>
 
-              {/*   Khoản khấu trừ  */}
+              {/* Khoản Khấu Trừ */}
               <div>
                 <label className="block font-medium text-gray-700 mb-2">
-                  khoản Khấu Trừ
+                  Khoản Khấu Trừ
                 </label>
                 <input
                   type="number"
@@ -178,6 +157,7 @@ const AddSalary = () => {
                 />
               </div>
 
+              {/* Ngày Trả Lương */}
               <div>
                 <label className="block font-medium text-gray-700 mb-2">
                   Ngày Trả Lương
