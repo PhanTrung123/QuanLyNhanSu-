@@ -163,7 +163,6 @@ const fetchEmployeeById = async (req, res) => {
     const employees = await Employee.find({ department: id });
     return res.status(200).json({ success: true, employees });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ success: false, error: "Lỗi máy chủ khi lấy dữ liệu!" });

@@ -5,7 +5,7 @@ import axios from "axios";
 
 const AddSalary = () => {
   const [salary, setSalary] = useState({
-    employeeName: null,
+    employeeId: null,
     basicSalary: 0,
     allowances: 0,
     deductions: 0,
@@ -57,6 +57,7 @@ const AddSalary = () => {
         navigate("/admin-dashboard/employees");
       }
     } catch (error) {
+      console.log(error);
       if (error.response && !error.response.data.success) {
         alert(error.response.data.error);
       }
@@ -98,7 +99,7 @@ const AddSalary = () => {
                   ID Nhân Viên
                 </label>
                 <select
-                  name="employeeName"
+                  name="employeeId"
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
                   required

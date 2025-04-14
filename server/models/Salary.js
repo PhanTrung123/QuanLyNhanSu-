@@ -6,11 +6,11 @@ const salarySchema = new Schema(
     employeeId: {
       type: Schema.Types.ObjectId,
       ref: "Employee",
-      require: true,
+      required: true,
     },
     basicSalary: {
       type: Number,
-      require: true,
+      required: true,
     },
     allowances: {
       type: Number,
