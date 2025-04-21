@@ -16,9 +16,9 @@ export const ColsEmp = [
   },
   {
     name: "Ảnh",
-    selector: (row) => row.profileImage,
-    sortable: true,
+    cell: (row) => row.profileImage,
     width: "120px",
+    center: true,
   },
   {
     name: "Phòng Ban",
@@ -34,7 +34,7 @@ export const ColsEmp = [
   },
   {
     name: "Hành Động",
-    selector: (row) => row.action,
+    cell: (row) => row.action,
     width: "400px",
     center: true,
   },

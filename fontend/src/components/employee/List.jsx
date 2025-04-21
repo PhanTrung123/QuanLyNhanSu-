@@ -21,8 +21,8 @@ const List = () => {
           const data = await res.data.employees.map((employee) => ({
             _id: employee._id,
             seriNumber: seriNumber++,
-            name: employee.userId.name,
             department_name: employee.department.department_name,
+            name: employee.userId.name,
             date: new Date(employee.date).toLocaleDateString(),
             profileImage: (
               <img
@@ -34,9 +34,10 @@ const List = () => {
             ),
             action: <EmployeeBtns Id={employee._id} />,
           }));
+          console.log(res.data);
+
           setEmployees(data);
           setSearchEmps(data);
-          console.log(res.data);
         }
       } catch (error) {
         console.log(error);

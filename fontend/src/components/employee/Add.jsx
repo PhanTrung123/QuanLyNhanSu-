@@ -59,6 +59,7 @@ const Add = () => {
         navigate("/admin-dashboard/employees");
       }
     } catch (error) {
+      console.log(error);
       if (error.response && !error.response.data.success) {
         alert(error.response.data.error);
       }
@@ -244,7 +245,7 @@ const Add = () => {
               <option value="" disabled>
                 --Chọn vai trò
               </option>
-              <option value="admin">Admin</option>
+              {/* <option value="admin">Admin</option> */}
               <option value="employee">Nhân viên</option>
             </select>
           </div>
