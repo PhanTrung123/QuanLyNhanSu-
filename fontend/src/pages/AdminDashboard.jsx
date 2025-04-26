@@ -2,7 +2,7 @@ import React from "react";
 import { useAuth } from "../context/AuthContext";
 import { AdminSidebar } from "../components/AdminSidebar";
 import Navbar from "../components/Navbar";
-import AdminSummary from "../components/AdminSummary";
+import Summary from "../components/EmployeeDashboard/Summary";
 import { Outlet } from "react-router-dom";
 
 const AdminDashboard = () => {

@@ -1,10 +1,21 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
+import Navbar from "../components/Navbar";
+import { Outlet } from "react-router-dom";
+import Sidebar from "../components/EmployeeDashboard/Sidebar";
 
-const AdminDashboard = () => {
-  const { user } = useAuth(); // lấy thông tin người dùng từ context
+const EmployeeDashboard = () => {
+  const { user } = useAuth();
 
-  return <div>AdminDashboard {user.name}</div>;
+  return (
+    <div className="flex  min-h-screen">
+      <Sidebar />
+      <div className="flex-1 ml-64 bg-[#ebeaea]">
+        <Navbar />
+        <Outlet />
+      </div>
+    </div>
+  );
 };
 
-export default AdminDashboard;
+export default EmployeeDashboard;

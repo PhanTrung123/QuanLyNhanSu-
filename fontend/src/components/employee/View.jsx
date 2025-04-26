@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-// import Employee from "../../../../server/models/Employee";
-// import Department from "../../../../server/models/Department";
 
 const View = () => {
   const { id } = useParams();
@@ -58,21 +56,21 @@ const View = () => {
             {/* Thông tin nhân viên */}
             <div className="space-y-4 text-gray-700">
               <div className="flex items-center">
-                <p className="font-semibold min-w-36">👤 Họ Và Tên:</p>
+                <p className="font-semibold min-w-36"> Họ Và Tên:</p>
                 <p className="text-gray-900">
                   {employee?.userId?.name || "No Data"}
                 </p>
               </div>
 
               <div className="flex items-center">
-                <p className="font-semibold min-w-36">🆔 Mã Nhân Viên:</p>
+                <p className="font-semibold min-w-36">Mã Nhân Viên:</p>
                 <p className="text-gray-900">
                   {employee?.employeeId || "No Data"}
                 </p>
               </div>
 
               <div className="flex items-center">
-                <p className="font-semibold min-w-36">🎂 Ngày Sinh:</p>
+                <p className="font-semibold min-w-36">Ngày Sinh:</p>
                 <p className="text-gray-900">
                   {employee?.date
                     ? new Date(employee.date).toLocaleDateString()
@@ -81,12 +79,12 @@ const View = () => {
               </div>
 
               <div className="flex items-center">
-                <p className="font-semibold min-w-36">🚻 Giới Tính:</p>
+                <p className="font-semibold min-w-36">Giới Tính:</p>
                 <p className="text-gray-900">{employee?.gender || "No Data"}</p>
               </div>
 
               <div className="flex items-center">
-                <p className="font-semibold min-w-36">💍 Tình Trạng:</p>
+                <p className="font-semibold min-w-36">Tình Trạng:</p>
                 <p className="text-gray-900">
                   {employee?.maritalStatus || "No Data"}
                 </p>

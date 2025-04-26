@@ -245,7 +245,7 @@ const Add = () => {
               <option value="" disabled>
                 --Chọn vai trò
               </option>
-              {/* <option value="admin">Admin</option> */}
+              <option value="admin">Admin</option>
               <option value="employee">Nhân viên</option>
             </select>
           </div>

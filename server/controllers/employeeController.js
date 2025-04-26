@@ -96,13 +96,26 @@ const getEmployees = async (req, res) => {
 // getEmployee: lấy thông tin nhân viên theo id
 const getEmployee = async (req, res) => {
   const { id } = req.params;
+
   try {
-    const employee = await Employee.findById({ _id: id })
+    // Tìm Employee với _id == id OR userId == id
+    const employee = await Employee.findOne({
+      $or: [{ _id: id }, { userId: id }],
+    })
       .populate("userId", { password: 0 })
       .populate("department");
+
+    // Nếu không tìm thấy
+    if (!employee) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Không tìm thấy nhân viên" });
+    }
+
+    // Trả về dữ liệu
     return res.status(200).json({ success: true, employee });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res
       .status(500)
       .json({ success: false, error: "Lỗi máy chủ khi lấy dữ liệu!" });

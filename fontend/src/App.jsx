@@ -16,6 +16,7 @@ import View from "./components/employee/View.jsx";
 import Edit from "./components/employee/Edit.jsx";
 import AddSalary from "./components/salary/Add.jsx";
 import ViewSalary from "./components/salary/View.jsx";
+import Summary from "./components/EmployeeDashboard/Summary.jsx";
 
 function App() {
   return (
@@ -67,10 +68,22 @@ function App() {
           ></Route>
         </Route>
 
-        {/* <Route
+        <Route
           path="/employee-dashboard"
-          element={<EmployeeDashboard />}
-        ></Route> */}
+          element={
+            <PrivateRoutes>
+              <RoleRoutes requiredRole={["admin", "employee"]}>
+                <EmployeeDashboard />
+              </RoleRoutes>
+            </PrivateRoutes>
+          }
+        >
+          <Route index element={<Summary />}></Route>
+          <Route
+            path="/employee-dashboard/profile/:id"
+            element={<View />}
+          ></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
