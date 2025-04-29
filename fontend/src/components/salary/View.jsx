@@ -6,7 +6,6 @@ const ViewSalary = () => {
   const [salaries, setSalaries] = useState(null);
   const [searchSalaries, setSearchSalaries] = useState(null);
   const { id } = useParams();
-  let num = 1;
 
   const fetchSalaries = async () => {
     try {

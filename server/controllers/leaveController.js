@@ -1,14 +1,17 @@
-import Leave from "../models/leave.js";
+import Employee from "../models/Employee.js";
+import Leave from "../models/Leave.js";
 
 const addLeave = async (req, res) => {
   try {
-    const { userId, leaveType, startDate, endDate, reason } = req.body;
+    const { userId, leaveType, startDate, endDate, appliedDate, reason } =
+      req.body;
 
     const newLeave = new Leave({
       employeeId: userId,
       leaveType,
       startDate,
       endDate,
+      appliedDate,
       reason,
     });
 
@@ -26,4 +29,20 @@ const addLeave = async (req, res) => {
   }
 };
 
-export { addLeave };
+const getLeaves = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const leaves = await Leave.find({ employeeId: id });
+    return res.status(200).json({
+      success: true,
+      leaves,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export { addLeave, getLeaves };
