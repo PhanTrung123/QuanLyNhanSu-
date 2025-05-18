@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 
 const List = () => {
   const { user } = useAuth();
-  const [leaves, setLeaves] = useState(null);
+  const [leaves, setLeaves] = useState([]);
   const [searchLeaves, setSearchLeaves] = useState([]);
 
   const fetchLeaves = async () => {

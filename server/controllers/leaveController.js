@@ -1,4 +1,3 @@
-import Employee from "../models/Employee.js";
 import Leave from "../models/Leave.js";
 
 const addLeave = async (req, res) => {
@@ -29,13 +28,13 @@ const addLeave = async (req, res) => {
   }
 };
 
-const getLeaves = async (req, res) => {
+const getLeave = async (req, res) => {
   try {
     const { id } = req.params;
-    const leaves = await Leave.find({ employeeId: id });
+    const leave = await Leave.find({ employeeId: id });
     return res.status(200).json({
       success: true,
-      leaves,
+      leave,
     });
   } catch (error) {
     return res.status(500).json({
@@ -45,4 +44,30 @@ const getLeaves = async (req, res) => {
   }
 };
 
-export { addLeave, getLeaves };
+const getLeaves = async (req, res) => {
+  try {
+    const leaves = await Leave.find()
+      .populate({
+        path: "employeeId",
+        select: "employeeId userId department",
+        populate: [
+          { path: "userId", select: "name" },
+          { path: "department", select: "department_name" },
+        ],
+      })
+      .exec();
+
+    res.status(200).json({
+      success: true,
+      leaves,
+    });
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách đơn xin phép:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Lỗi máy chủ. Không thể lấy danh sách đơn xin phép.",
+    });
+  }
+};
+
+export { addLeave, getLeave, getLeaves };

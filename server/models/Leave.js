@@ -7,13 +7,11 @@ const leaveSchema = new Schema(
       ref: "Employee",
       required: true,
     },
-
     leaveType: {
       type: String,
-      enum: ["Nghỉ Ốm", "Nghỉ Phép Năm", "Nghỉ Việc Riêng", "Nghỉ Thai Sản"],
       required: true,
+      enum: ["Nghỉ Ốm", "Nghỉ Phép Năm", "Nghỉ Việc Riêng", "Nghỉ Thai Sản"],
     },
-
     startDate: {
       type: Date,
       required: true,
@@ -25,11 +23,12 @@ const leaveSchema = new Schema(
     reason: {
       type: String,
       required: true,
+      trim: true,
     },
     appliedDate: {
       type: Date,
-      required: true,
       default: Date.now,
+      required: true,
     },
     status: {
       type: String,
@@ -37,7 +36,9 @@ const leaveSchema = new Schema(
       default: "Chờ Xét Duyệt",
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 const Leave = mongoose.model("Leave", leaveSchema);

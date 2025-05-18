@@ -86,16 +86,16 @@ const ViewSalary = () => {
                         {salary.employeeId?.employeeId || "N/A"}
                       </td>
                       <td className="px-6 py-4">
-                        {salary.basicSalary.toLocaleString()}
+                        {salary.basicSalary.toLocaleString()} đ
                       </td>
                       <td className="px-6 py-4">
-                        {salary.allowances.toLocaleString()}
+                        {salary.allowances.toLocaleString()} đ
                       </td>
                       <td className="px-6 py-4">
-                        {salary.deductions.toLocaleString()}
+                        {salary.deductions.toLocaleString()} đ
                       </td>
                       <td className="px-6 py-4 font-semibold text-green-600">
-                        {salary.netSalary.toLocaleString()}
+                        {salary.netSalary.toLocaleString()} đ
                       </td>
                       <td className="px-6 py-4">
                         {new Date(salary.payDate).toLocaleDateString("vi-VN")}

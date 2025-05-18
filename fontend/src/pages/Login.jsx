@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { FiMail, FiLock } from "react-icons/fi"; // icon mail, lock
+import { FiMail, FiLock } from "react-icons/fi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -40,7 +40,7 @@ const Login = () => {
     <div
       className="flex flex-col items-center justify-center min-h-screen p-4 space-y-6"
       style={{
-        background: "linear-gradient(to right, #17837c, #22b2a7)", // gradient xanh ngọc như hình bạn gửi
+        background: "linear-gradient(to right, #17837c, #22b2a7)",
       }}
     >
       {/* Tiêu đề */}
