@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
+import { Schema } from "mongoose";
 
 const leaveSchema = new Schema(
   {
@@ -24,11 +25,6 @@ const leaveSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-    },
-    appliedDate: {
-      type: Date,
-      default: Date.now,
-      required: true,
     },
     status: {
       type: String,

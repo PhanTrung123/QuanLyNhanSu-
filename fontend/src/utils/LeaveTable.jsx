@@ -13,15 +13,30 @@ export const leaveCols = [
     width: "120px",
   },
   { name: "Tên", selector: (row) => row.name, width: "140px" },
-  { name: "Loại Nghỉ Phép", selector: (row) => row.leaveType, width: "160px" },
-  { name: "Phòng Ban", selector: (row) => row.department, width: "170px" },
+  {
+    name: "Loại Nghỉ Phép",
+    selector: (row) => row.leaveType,
+    width: "160px",
+    center: true,
+  },
+  {
+    name: "Phòng Ban",
+    selector: (row) => row.department,
+    width: "170px",
+    center: true,
+  },
   {
     name: "Số Ngày Nghỉ",
     selector: (row) => row.days,
-    width: "120px",
+    width: "150px",
     center: true,
   },
-  { name: "Tình Trạng", selector: (row) => row.status, width: "150px" },
+  {
+    name: "Tình Trạng",
+    selector: (row) => row.status,
+    width: "150px",
+    center: true,
+  },
   { name: "Hành Động", selector: (row) => row.action, center: true },
 ];
 

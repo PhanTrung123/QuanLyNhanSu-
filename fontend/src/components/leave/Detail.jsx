@@ -4,13 +4,13 @@ import { useParams } from "react-router-dom";
 
 const Detail = () => {
   const { id } = useParams();
-  const [employee, setEmployee] = useState(null);
+  const [leave, setLeave] = useState(null);
 
   useEffect(() => {
-    const fetchEmployees = async () => {
+    const fetchLeave = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8000/api/employee/${id}`,
+          `http://localhost:8000/api/leave/detail/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -19,7 +19,7 @@ const Detail = () => {
         );
         console.log(res.data);
         if (res.data.success) {
-          setEmployee(res.data.employee);
+          setLeave(res.data.leave);
         }
       } catch (error) {
         console.log(error);
@@ -28,23 +28,23 @@ const Detail = () => {
         }
       }
     };
-    fetchEmployees();
+    fetchLeave();
   }, []);
 
   return (
     <>
-      {employee ? (
+      {leave ? (
         <div className="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
           <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">
-            📌 Thông Tin Nhân Viên
+            📌 Danh Sách Các Đơn Nghỉ Phép
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             {/* Hình ảnh nhân viên */}
             <div className="flex justify-center">
-              {employee?.userId?.profileImage ? (
+              {leave?.employeeId?.userId?.profileImage ? (
                 <img
-                  src={`http://localhost:8000/${employee.userId.profileImage}`}
+                  src={`http://localhost:8000/${leave.employeeId.userId.profileImage}`}
                   className="w-full h-full rounded-full object-cover"
                   alt="Profile"
                 />
@@ -52,42 +52,55 @@ const Detail = () => {
                 <p className="text-gray-500 text-sm font-semibold">No Data</p>
               )}
             </div>
-
-            {/* Thông tin nhân viên */}
             <div className="space-y-4 text-gray-700">
               <div className="flex items-center">
                 <p className="font-semibold min-w-36"> Họ Và Tên:</p>
                 <p className="text-gray-900">
-                  {employee?.userId?.name || "No Data"}
+                  {leave.employeeId.userId.name || "No Data"}
                 </p>
               </div>
 
               <div className="flex items-center">
                 <p className="font-semibold min-w-36">Mã Nhân Viên:</p>
                 <p className="text-gray-900">
-                  {employee?.employeeId || "No Data"}
+                  {leave?.employeeId?.employeeId || "No Data"}
                 </p>
               </div>
 
               <div className="flex items-center">
-                <p className="font-semibold min-w-36">Ngày Sinh:</p>
+                <p className="font-semibold min-w-36">Loại Nghỉ Phép:</p>
+                <p className="text-gray-900">{leave?.leaveType || "No Data"}</p>
+              </div>
+
+              <div className="flex items-center">
+                <p className="font-semibold min-w-36">Lý Do:</p>
+                <p className="text-gray-900">{leave?.reason || "No Data"}</p>
+              </div>
+
+              <div className="flex items-center">
+                <p className="font-semibold min-w-36">Phòng Ban:</p>
                 <p className="text-gray-900">
-                  {employee?.date
-                    ? new Date(employee.date).toLocaleDateString()
-                    : "No Data"}
+                  {leave?.employeeId?.department?.department_name || "No Data"}
                 </p>
               </div>
 
               <div className="flex items-center">
-                <p className="font-semibold min-w-36">Giới Tính:</p>
-                <p className="text-gray-900">{employee?.gender || "No Data"}</p>
+                <p className="font-semibold min-w-36">Từ Ngày:</p>
+                <p className="text-gray-900">
+                  {new Date(leave?.startDate).toLocaleDateString() || "No Data"}
+                </p>
+              </div>
+
+              <div className="flex items-center">
+                <p className="font-semibold min-w-36">Đến Ngày:</p>
+                <p className="text-gray-900">
+                  {new Date(leave?.endDate).toLocaleDateString() || "No Data"}
+                </p>
               </div>
 
               <div className="flex items-center">
                 <p className="font-semibold min-w-36">Tình Trạng:</p>
-                <p className="text-gray-900">
-                  {employee?.maritalStatus || "No Data"}
-                </p>
+                <p className="text-gray-900">{leave?.status || "No Data"}</p>
               </div>
             </div>
           </div>

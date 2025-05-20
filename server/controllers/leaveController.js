@@ -1,16 +1,16 @@
+import Employee from "../models/Employee.js";
 import Leave from "../models/Leave.js";
 
 const addLeave = async (req, res) => {
   try {
-    const { userId, leaveType, startDate, endDate, appliedDate, reason } =
-      req.body;
+    const { userId, leaveType, startDate, endDate, reason } = req.body;
+    const employee = await Employee.findOne({ userId });
 
     const newLeave = new Leave({
-      employeeId: userId,
+      employeeId: employee._id,
       leaveType,
       startDate,
       endDate,
-      appliedDate,
       reason,
     });
 
@@ -31,12 +31,14 @@ const addLeave = async (req, res) => {
 const getLeave = async (req, res) => {
   try {
     const { id } = req.params;
-    const leave = await Leave.find({ employeeId: id });
+    const employee = await Employee.findOne({ userId: id });
+    const leaves = await Leave.find({ employeeId: employee._id });
     return res.status(200).json({
       success: true,
-      leave,
+      leaves,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       error: error.message,
@@ -46,28 +48,53 @@ const getLeave = async (req, res) => {
 
 const getLeaves = async (req, res) => {
   try {
-    const leaves = await Leave.find()
-      .populate({
-        path: "employeeId",
-        select: "employeeId userId department",
-        populate: [
-          { path: "userId", select: "name" },
-          { path: "department", select: "department_name" },
-        ],
-      })
-      .exec();
+    const leaves = await Leave.find().populate({
+      path: "employeeId",
+      select: "employeeId userId department",
+      populate: [
+        { path: "userId", select: "name" },
+        { path: "department", select: "department_name" },
+      ],
+    });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       leaves,
     });
   } catch (error) {
-    console.error("Lỗi khi lấy danh sách đơn xin phép:", error.message);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: "Lỗi máy chủ. Không thể lấy danh sách đơn xin phép.",
     });
   }
 };
 
-export { addLeave, getLeave, getLeaves };
+const getLeaveDetail = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const leave = await Leave.findById({ _id: id }).populate({
+      path: "employeeId",
+      populate: [
+        {
+          path: "department",
+          select: "employeeId userId department_name",
+        },
+        {
+          path: "userId",
+          select: "name, profileImage",
+        },
+      ],
+    });
+    return res.status(200).json({
+      success: true,
+      leave,
+    });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ success: false, error: "Lỗi máy chủ. Không thể lấy thông tin." });
+  }
+};
+
+export { addLeave, getLeave, getLeaves, getLeaveDetail };
