@@ -5,6 +5,7 @@ import {
   getLeave,
   getLeaves,
   getLeaveDetail,
+  updateLeave,
 } from "../controllers/leaveController.js";
 
 const router = express.Router();
@@ -13,5 +14,6 @@ router.post("/add", authMiddleware, addLeave);
 router.get("/:id", authMiddleware, getLeave);
 router.get("/", authMiddleware, getLeaves);
 router.get("/detail/:id", authMiddleware, getLeaveDetail);
+router.put("/:id", authMiddleware, updateLeave);
 
 export default router;

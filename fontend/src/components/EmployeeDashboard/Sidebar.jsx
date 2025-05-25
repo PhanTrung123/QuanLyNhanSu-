@@ -38,7 +38,7 @@ const Sidebar = () => {
           <span>Thông Tin Cá Nhân </span>
         </NavLink>
         <NavLink
-          to="/employee-dashboard/leaves"
+          to={`/employee-dashboard/leaves/${user._id}`}
           className={({ isActive }) =>
             `${
               isActive ? "bg-[#2a9294]" : " "

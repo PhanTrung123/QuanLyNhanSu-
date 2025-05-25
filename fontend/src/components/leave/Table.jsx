@@ -50,12 +50,18 @@ const Table = () => {
     fetchLeaves();
   }, []);
 
-  // tìm kiếm
+  // tìm kiếm theo tên nhân viên hoặc loại nghỉ phép
   const filteredLeaves = leaves.filter((leave) => {
     const matchesSearch =
       leave.name?.toLowerCase().includes(searchText.toLowerCase()) ||
       leave.leaveType?.toLowerCase().includes(searchText.toLowerCase());
-    return matchesSearch;
+
+    // tìm kiếm theo tình trạng đơn (status)
+    const matchesStatus =
+      statusFilter === "All" ||
+      leave.status?.toLowerCase().includes(statusFilter.toLowerCase());
+
+    return matchesSearch && matchesStatus;
   });
 
   return (
@@ -64,8 +70,6 @@ const Table = () => {
         <h2 className="text-3xl font-bold text-gray-800 mb-6">
           Danh Sách Đơn Xin Phép
         </h2>
-
-        {/* Bộ lọc */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <input
             type="text"
@@ -76,9 +80,9 @@ const Table = () => {
           />
           <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => setStatusFilter("Pending")}
+              onClick={() => setStatusFilter("Chờ Xét Duyệt")}
               className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${
-                statusFilter === "Pending"
+                statusFilter === "Chờ Xét Duyệt"
                   ? "bg-yellow-300 text-white"
                   : "bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
               }`}
@@ -86,9 +90,9 @@ const Table = () => {
               <FiClock /> Chờ Duyệt
             </button>
             <button
-              onClick={() => setStatusFilter("Approved")}
+              onClick={() => setStatusFilter("Đã Duyệt")}
               className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${
-                statusFilter === "Approved"
+                statusFilter === "Đã Duyệt"
                   ? "bg-green-500 text-white"
                   : "bg-green-100 text-green-700 hover:bg-green-200"
               }`}
@@ -96,14 +100,24 @@ const Table = () => {
               <FiCheckCircle /> Đã Duyệt
             </button>
             <button
-              onClick={() => setStatusFilter("Rejected")}
+              onClick={() => setStatusFilter("Từ Chối")}
               className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${
-                statusFilter === "Rejected"
+                statusFilter === "Từ Chối"
                   ? "bg-red-500 text-white"
                   : "bg-red-100 text-red-700 hover:bg-red-200"
               }`}
             >
               <FiXCircle /> Từ Chối
+            </button>
+            <button
+              onClick={() => setStatusFilter("All")}
+              className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${
+                statusFilter === "All"
+                  ? "bg-gray-500 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              Tất Cả
             </button>
           </div>
         </div>

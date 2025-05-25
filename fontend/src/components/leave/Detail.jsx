@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 const Detail = () => {
   const { id } = useParams();
   const [leave, setLeave] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLeave = async () => {
@@ -17,12 +18,10 @@ const Detail = () => {
             },
           }
         );
-        console.log(res.data);
         if (res.data.success) {
           setLeave(res.data.leave);
         }
       } catch (error) {
-        console.log(error);
         if (error.response && !error.response.data.success) {
           alert(error.response.data.error);
         }
@@ -30,6 +29,28 @@ const Detail = () => {
     };
     fetchLeave();
   }, []);
+
+  const changeStatus = async (id, status) => {
+    try {
+      const res = await axios.put(
+        `http://localhost:8000/api/leave/${id}`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (res.data.success) {
+        navigate("/admin-dashboard/leaves");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response && !error.response.data.success) {
+        alert(error.response.data.error);
+      }
+    }
+  };
 
   return (
     <>
@@ -40,7 +61,6 @@ const Detail = () => {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            {/* Hình ảnh nhân viên */}
             <div className="flex justify-center">
               {leave?.employeeId?.userId?.profileImage ? (
                 <img
@@ -99,8 +119,29 @@ const Detail = () => {
               </div>
 
               <div className="flex items-center">
-                <p className="font-semibold min-w-36">Tình Trạng:</p>
-                <p className="text-gray-900">{leave?.status || "No Data"}</p>
+                <p className="font-semibold min-w-36">
+                  {leave.status === "Chờ Xét Duyệt"
+                    ? "Hành Động: "
+                    : "Tình Trang: "}
+                </p>
+                {leave.status === "Chờ Xét Duyệt" ? (
+                  <div className="flex space-x-2">
+                    <button
+                      className="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded-lg shadow transition duration-200"
+                      onClick={() => changeStatus(leave._id, "Đã Duyệt")}
+                    >
+                      Duyệt
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-lg shadow transition duration-200"
+                      onClick={() => changeStatus(leave._id, "Từ Chối")}
+                    >
+                      Từ Chối
+                    </button>
+                  </div>
+                ) : (
+                  <p className="text-gray-900">{leave?.status || "No Data"}</p>
+                )}
               </div>
             </div>
           </div>

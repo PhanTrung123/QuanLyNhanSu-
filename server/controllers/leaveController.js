@@ -31,8 +31,11 @@ const addLeave = async (req, res) => {
 const getLeave = async (req, res) => {
   try {
     const { id } = req.params;
-    const employee = await Employee.findOne({ userId: id });
-    const leaves = await Leave.find({ employeeId: employee._id });
+    let leaves = await Leave.find({ employeeId: id });
+    if (!leaves) {
+      const employee = await Employee.findOne({ userId: id });
+      leaves = await Leave.find({ employeeId: employee._id });
+    }
     return res.status(200).json({
       success: true,
       leaves,
@@ -90,11 +93,30 @@ const getLeaveDetail = async (req, res) => {
       leave,
     });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ success: false, error: "Lỗi máy chủ. Không thể lấy thông tin." });
   }
 };
 
-export { addLeave, getLeave, getLeaves, getLeaveDetail };
+const updateLeave = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const leave = await Leave.findByIdAndUpdate(
+      { _id: id },
+      { status: req.body.status }
+    );
+    if (!leave) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Đơn xin phép không được tìm thấy." });
+    }
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: "Lỗi máy chủ khi cập nhật đơn." });
+  }
+};
+
+export { addLeave, getLeave, getLeaves, getLeaveDetail, updateLeave };

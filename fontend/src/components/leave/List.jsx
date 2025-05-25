@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 const List = () => {
-  const { user } = useAuth();
   const [leaves, setLeaves] = useState([]);
   const [search, setSearch] = useState("");
   let seriNumber = 1;
 
+  const { id } = useParams();
+
   const fetchLeaves = async () => {
     try {
-      const res = await axios.get(
-        `http://localhost:8000/api/leave/${user._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const res = await axios.get(`http://localhost:8000/api/leave/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       if (res.data.success) {
         setLeaves(res.data.leaves);
       }
@@ -41,14 +38,11 @@ const List = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-8 bg-white rounded-3xl shadow-lg mt-12">
-      {/* Tiêu đề */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">
           Danh Sách Đơn Xin Phép
         </h1>
       </div>
-
-      {/* Thanh tìm kiếm và nút thêm */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
         <input
           type="text"
