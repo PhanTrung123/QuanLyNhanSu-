@@ -75,8 +75,12 @@ export const AdminSidebar = () => {
           <span>Lương</span>
         </NavLink>
         <NavLink
-          to="/admin-dashboard"
-          className="flex items-center space-x-4 block py-3 px-4 rounded-xl"
+          to="/admin-dashboard/setting"
+          className={({ isActive }) =>
+            `${
+              isActive ? "bg-[#2a9294]" : " "
+            } flex items-center space-x-4 block py-3 px-4 rounded-xl `
+          }
         >
           <FaCog />
           <span>Cài Đặt</span>

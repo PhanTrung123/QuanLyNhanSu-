@@ -82,6 +82,7 @@ function App() {
             path="/admin-dashboard/employees/leaves/:id"
             element={<ListLeave />}
           ></Route>
+          <Route path="/admin-dashboard/setting" element={<Setting />}></Route>
         </Route>
 
         <Route

@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 const changePassword = async (req, res) => {
   try {
-    const { userId, oldPassword, newPassword } = req.body;
+    const { userId, currentPassword, newPassword } = req.body;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -14,7 +14,10 @@ const changePassword = async (req, res) => {
     }
 
     // kiểm tra mật khẩu cũ
-    const oldPasswordMatch = await bcrypt.compare(oldPassword, user.password);
+    const oldPasswordMatch = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
     if (!oldPasswordMatch) {
       return res.status(400).json({
         success: false,

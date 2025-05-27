@@ -65,7 +65,7 @@ const Table = () => {
   });
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6  min-h-screen">
       <div className="max-w-7xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">
           Danh Sách Đơn Xin Phép

@@ -18,7 +18,6 @@ export const Cols = [
 ];
 
 // chức năng xóa 1 phòng ban bất kỳ trong danh sách
-
 export const DepartmentBtns = ({ Id, onDelete }) => {
   const navigate = useNavigate();
 
@@ -27,7 +26,6 @@ export const DepartmentBtns = ({ Id, onDelete }) => {
     const confirm = window.confirm("Bạn chắc chắn muốn xóa?");
     if (confirm) {
       try {
-        // console.log("ID cần xóa:", id);
         const res = await axios.delete(
           `http://localhost:8000/api/department/${id}`,
           {
@@ -37,7 +35,7 @@ export const DepartmentBtns = ({ Id, onDelete }) => {
           }
         );
         if (res.data.success) {
-          onDelete(id);
+          onDelete();
         }
       } catch (error) {
         if (error.response && !error.response.data.success) {

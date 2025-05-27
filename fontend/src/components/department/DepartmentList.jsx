@@ -10,48 +10,40 @@ const DepartmentList = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState([]);
 
-  const onDelete = (id) => {
-    setDepartments((prevDepartments) => {
-      let seriNumber = 1;
-      return prevDepartments
-        .filter((department) => department._id !== id)
-        .map((department) => ({
-          ...department,
+  const onDelete = () => {
+    fetchDepartments();
+  };
+
+  // lấy dữ liệu từ các phòng ban đã được thêm
+  const fetchDepartments = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get("http://localhost:8000/api/department", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (res.data.success) {
+        let seriNumber = 1;
+        const data = await res.data.departments.map((department) => ({
+          _id: department._id,
           seriNumber: seriNumber++,
+          department_name: department.department_name,
           action: <DepartmentBtns Id={department._id} onDelete={onDelete} />,
         }));
-    });
+        setDepartments(data);
+        setSearch(data);
+      }
+    } catch (error) {
+      if (error.response && !error.response.data.success) {
+        alert(error.response.data.error);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    // lấy dữ liệu từ các phòng ban đã được thêm
-    const fetchDepartments = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get("http://localhost:8000/api/department", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        if (res.data.success) {
-          let seriNumber = 1;
-          const data = await res.data.departments.map((department) => ({
-            _id: department._id,
-            seriNumber: seriNumber++,
-            department_name: department.department_name,
-            action: <DepartmentBtns Id={department._id} onDelete={onDelete} />,
-          }));
-          setDepartments(data);
-          setSearch(data);
-        }
-      } catch (error) {
-        if (error.response && !error.response.data.success) {
-          alert(error.response.data.error);
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchDepartments();
   }, []);
 

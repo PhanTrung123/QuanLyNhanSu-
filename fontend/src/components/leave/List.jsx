@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../../context/AuthContext";
 
 const List = () => {
   const [leaves, setLeaves] = useState([]);
@@ -8,6 +9,7 @@ const List = () => {
   let seriNumber = 1;
 
   const { id } = useParams();
+  const { user } = useAuth();
 
   const fetchLeaves = async () => {
     try {
@@ -51,24 +53,26 @@ const List = () => {
           placeholder="🔍 Tìm kiếm theo lý do hoặc loại phép..."
           className="flex-1 border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
         />
-        <Link
-          to="/employee-dashboard/add-leave"
-          className="bg-blue-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 transition duration-300 shadow"
-        >
-          Thêm Đơn Mới
-        </Link>
+        {user.role === "employee" && (
+          <Link
+            to="/employee-dashboard/add-leave"
+            className="bg-blue-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 transition duration-300 shadow"
+          >
+            Thêm Đơn Mới
+          </Link>
+        )}
       </div>
 
       <div className="overflow-x-auto rounded-xl shadow-sm">
-        <table className="w-full text-sm text-left text-gray-700">
+        <table className="w-full text-sm text-left text-gray-700 border">
           <thead className="text-sm text-gray-800 uppercase bg-blue-50">
             <tr>
-              <th className="px-6 py-3">STT</th>
-              <th className="px-6 py-3">Loại Phép</th>
-              <th className="px-6 py-3">Từ Ngày</th>
-              <th className="px-6 py-3">Đến Ngày</th>
-              <th className="px-6 py-3">Lý Do</th>
-              <th className="px-6 py-3">Tình Trạng</th>
+              <th className="px-6 py-3 text-center">STT</th>
+              <th className="px-6 py-3 text-center">Loại Phép</th>
+              <th className="px-6 py-3 text-center">Từ Ngày</th>
+              <th className="px-6 py-3 text-center">Đến Ngày</th>
+              <th className="px-6 py-3 text-center">Lý Do</th>
+              <th className="px-6 py-3 text-center">Tình Trạng</th>
             </tr>
           </thead>
           <tbody>
@@ -76,7 +80,7 @@ const List = () => {
               filteredLeaves.map((leave) => (
                 <tr
                   key={leave._id}
-                  className="hover:bg-gray-50 border-b border-gray-100 transition duration-200"
+                  className="hover:bg-gray-50 border-b border-gray-100 transition duration-200 text-center"
                 >
                   <td className="px-6 py-4 font-medium">{seriNumber++}</td>
                   <td className="px-6 py-4">{leave.leaveType || "Không rõ"}</td>
