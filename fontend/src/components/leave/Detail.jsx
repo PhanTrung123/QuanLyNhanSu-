@@ -147,7 +147,7 @@ const Detail = () => {
           </div>
         </div>
       ) : (
-        <div>Vui lòng chờ ...</div>
+        <div className="text-center text-gray-600 mt-10">Vui lòng chờ...</div>
       )}
     </>
   );

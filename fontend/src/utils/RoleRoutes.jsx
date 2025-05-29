@@ -6,7 +6,9 @@ const RoleRoutes = ({ children, requiredRole }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div>Vui lòng chờ ...</div>;
+    return (
+      <div className="text-center text-gray-600 mt-10">Vui lòng chờ...</div>
+    );
   }
 
   if (!requiredRole.includes(user.role)) {

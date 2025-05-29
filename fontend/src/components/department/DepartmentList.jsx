@@ -60,7 +60,7 @@ const DepartmentList = () => {
   return (
     <>
       {loading ? (
-        <div>Vui lòng chờ ... </div>
+        <div className="text-center text-gray-600 mt-10">Vui lòng chờ...</div>
       ) : (
         <div className="p-5">
           <div className="">

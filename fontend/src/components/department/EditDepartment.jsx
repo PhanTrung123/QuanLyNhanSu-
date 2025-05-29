@@ -65,7 +65,7 @@ const EditDepartment = () => {
   return (
     <>
       {loading ? (
-        <div>Vui lòng chờ ...</div>
+        <div className="text-center text-gray-600 mt-10">Vui lòng chờ...</div>
       ) : (
         <div className="flex items-center justify-center h-screen bg-gray-100 ">
           <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg  mb-14 ">

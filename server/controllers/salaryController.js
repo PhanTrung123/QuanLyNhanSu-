@@ -33,19 +33,25 @@ const addSalary = async (req, res) => {
 
 const getSalary = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, role } = req.params;
     let salary = await Salary.find({ employeeId: id }).populate(
       "employeeId",
       "employeeId"
     );
-    // Nếu không tìm thấy lương cho nhân viên, tìm kiếm theo employeeId
-    if (!salary || salary.length < 1) {
+    if (role === "admin") {
+      salary = await Salary.find({ employeeId: id }).populate(
+        "employeeId",
+        "employeeId"
+      );
+    } else {
+      // Nếu không tìm thấy lương cho nhân viên, tìm kiếm theo employeeId
       const employee = await Employee.findOne({ userId: id });
       salary = await Salary.find({ employeeId: employee._id }).populate(
         "employeeId",
         "employeeId"
       );
     }
+
     return res.status(200).json({
       success: true,
       salary,
