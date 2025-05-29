@@ -13,11 +13,14 @@ const List = () => {
 
   const fetchLeaves = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/api/leave/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.get(
+        `http://localhost:8000/api/leave/${id}/${user.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       if (res.data.success) {
         setLeaves(res.data.leaves);
       }

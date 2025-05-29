@@ -84,7 +84,7 @@ const getLeaveDetail = async (req, res) => {
         },
         {
           path: "userId",
-          select: "name, profileImage",
+          select: "name profileImage",
         },
       ],
     });
