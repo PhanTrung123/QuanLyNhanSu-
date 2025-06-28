@@ -23,6 +23,8 @@ import SalaryHistory from "./components/employee/SalaryHistory.jsx";
 import Setting from "./components/EmployeeDashboard/Setting.jsx";
 import Table from "./components/leave/Table.jsx";
 import LeaveDetail from "./components/leave/Detail.jsx";
+import Attendance from "./components/attendance/Attendance.jsx";
+import AttendanceReport from "./components/attendance/AttendanceReport.jsx";
 
 function App() {
   return (
@@ -83,6 +85,14 @@ function App() {
             element={<ListLeave />}
           ></Route>
           <Route path="/admin-dashboard/setting" element={<Setting />}></Route>
+          <Route
+            path="/admin-dashboard/attendance"
+            element={<Attendance />}
+          ></Route>
+          <Route
+            path="/admin-dashboard/attendance-report"
+            element={<AttendanceReport />}
+          ></Route>
         </Route>
 
         <Route

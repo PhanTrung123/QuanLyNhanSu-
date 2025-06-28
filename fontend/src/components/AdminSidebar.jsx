@@ -7,6 +7,8 @@ import {
   FaMoneyBill,
   FaTachometerAlt,
   FaUsers,
+  FaClipboardCheck,
+  FaFileInvoice,
 } from "react-icons/fa";
 
 export const AdminSidebar = () => {
@@ -73,6 +75,28 @@ export const AdminSidebar = () => {
         >
           <FaMoneyBill />
           <span>Lương</span>
+        </NavLink>
+        <NavLink
+          to={"/admin-dashboard/attendance"}
+          className={({ isActive }) =>
+            `${
+              isActive ? "bg-[#2a9294]" : " "
+            } flex items-center space-x-4 block py-3 px-4 rounded-xl `
+          }
+        >
+          <FaClipboardCheck />
+          <span>Chấm Công</span>
+        </NavLink>
+        <NavLink
+          to={"/admin-dashboard/attendance-report"}
+          className={({ isActive }) =>
+            `${
+              isActive ? "bg-[#2a9294]" : " "
+            } flex items-center space-x-4 block py-3 px-4 rounded-xl `
+          }
+        >
+          <FaFileInvoice />
+          <span>Báo Cáo Chấm Công</span>
         </NavLink>
         <NavLink
           to="/admin-dashboard/setting"
