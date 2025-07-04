@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React from "react";
 
 // Cột cho bảng chấm công
 export const ColsAtt = [
@@ -26,19 +27,28 @@ export const ColsAtt = [
     width: "220px",
   },
   {
-    name: "Hành Động",
-    cell: (row) => <AttendanceBtns status={row.status} />,
+    name: "Tình Trạng",
+    selector: (row) => row.action,
     width: "450px",
     center: true,
   },
 ];
 
-// Component nút chọn trạng thái chấm công
-export const AttendanceBtns = ({ status: initialStatus }) => {
-  const [status, setStatus] = useState(initialStatus || null);
-
-  const handleStatusClick = (value) => {
-    setStatus(value);
+// chọn trạng thái chấm công khi nhấn nút
+export const AttendanceBtns = ({ status, employeeId, statusOptions }) => {
+  const clickMarkEmp = async (status, employeeId) => {
+    const res = await axios.put(
+      `http://localhost:8000/api/attendance/update/${employeeId}`,
+      { status },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    if (res.data.success) {
+      statusOptions(); // Cập nhật lại danh sách chấm công sau khi thay đổi trạng thái
+    }
   };
 
   return (
@@ -46,25 +56,25 @@ export const AttendanceBtns = ({ status: initialStatus }) => {
       {status === null ? (
         <>
           <button
-            onClick={() => handleStatusClick("Có Mặt")}
+            onClick={() => clickMarkEmp("Có Mặt", employeeId)}
             className="bg-green-500 text-white text-sm px-3 py-1 rounded hover:bg-green-600"
           >
             Có Mặt
           </button>
           <button
-            onClick={() => handleStatusClick("Vắng Mặt")}
+            onClick={() => clickMarkEmp("Vắng Mặt", employeeId)}
             className="bg-red-500 text-white text-sm px-3 py-1 rounded hover:bg-red-600"
           >
             Vắng Mặt
           </button>
           <button
-            onClick={() => handleStatusClick("Nghỉ Ốm")}
+            onClick={() => clickMarkEmp("Nghỉ Ốm", employeeId)}
             className="bg-yellow-400 text-white text-sm px-3 py-1 rounded hover:bg-yellow-500"
           >
             Nghỉ Ốm
           </button>
           <button
-            onClick={() => handleStatusClick("Nghỉ Có Phép")}
+            onClick={() => clickMarkEmp("Nghỉ Có Phép", employeeId)}
             className="bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600"
           >
             Nghỉ Phép
