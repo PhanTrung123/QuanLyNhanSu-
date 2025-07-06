@@ -43,4 +43,50 @@ const updateAttendance = async (req, res) => {
   }
 };
 
-export { getAttendance, updateAttendance };
+const attendanceReport = async (req, res) => {
+  try {
+    //limitPerDay: số lượng bản ghi mỗi ngày, limitPerDay: số lượng bản ghi bỏ qua
+    const { date, limitPerDay = 10, skipPerDay = 0 } = req.query;
+    const query = {};
+
+    if (date) {
+      query.date = date;
+    }
+
+    const attendanceReport = await Attendance.find(query)
+      .populate({
+        path: "employeeId",
+        populate: ["department", "userId"],
+      })
+      .sort({ date: -1 }) // Sắp xếp theo ngày giảm dần
+      .limit(parseInt(limitPerDay))
+      .skip(parseInt(skipPerDay));
+
+    // sử dụng reduce để nhóm dữ liệu theo ngày
+    const groupData = await attendanceReport.reduce((result, record) => {
+      if (!result[record.date]) {
+        result[record.date] = [];
+      }
+      result[record.date].push({
+        employeeId: record.employeeId.employeeId,
+        employeeName: record.employeeId.userId.name,
+        departmentName: record.employeeId.department.department_name,
+        status: record.status || "Chưa Chấm Công",
+        reason: record.reason || "Không có lý do",
+      });
+      return result;
+    }, {});
+    return res.status(201).json({
+      success: true,
+      groupData,
+      message: "Lấy báo cáo thành công!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: "Lỗi máy chủ khi lấy báo cáo điểm danh!",
+    });
+  }
+};
+
+export { getAttendance, updateAttendance, attendanceReport };

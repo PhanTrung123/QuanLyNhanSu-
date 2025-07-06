@@ -4,7 +4,6 @@ import DataTable from "react-data-table-component";
 import { Cols, DepartmentBtns } from "../../utils/DepartmentTable";
 import axios from "axios";
 
-// giao diện form hiển thị danh sách các phòng ban
 const DepartmentList = () => {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,7 +13,6 @@ const DepartmentList = () => {
     fetchDepartments();
   };
 
-  // lấy dữ liệu từ các phòng ban đã được thêm
   const fetchDepartments = async () => {
     setLoading(true);
     try {
@@ -25,7 +23,7 @@ const DepartmentList = () => {
       });
       if (res.data.success) {
         let seriNumber = 1;
-        const data = await res.data.departments.map((department) => ({
+        const data = res.data.departments.map((department) => ({
           _id: department._id,
           seriNumber: seriNumber++,
           department_name: department.department_name,
@@ -47,66 +45,75 @@ const DepartmentList = () => {
     fetchDepartments();
   }, []);
 
-  // chức năng tìm kiếm (tra chữ cái đầu không phân biệt chữ hoa và thường)
   const filterDepartments = (e) => {
-    const search = departments.filter((department) =>
-      department.department_name
-        .toLowerCase()
-        .startsWith(e.target.value.toLowerCase())
+    const searchValue = e.target.value.toLowerCase();
+    const filtered = departments.filter((department) =>
+      department.department_name.toLowerCase().startsWith(searchValue)
     );
-    setSearch(search);
+    setSearch(filtered);
   };
 
   return (
-    <>
-      {loading ? (
-        <div className="text-center text-gray-600 mt-10">Vui lòng chờ...</div>
-      ) : (
-        <div className="p-5">
-          <div className="">
-            <h3 className="text-2xl font-bold">Quản Lý Phòng Ban</h3>
-          </div>
-          <div className="flex justify-between items-center mt-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#f3f4f6] to-[#e0f2f1] p-8">
+      <div className="max-w-6xl mx-auto rounded-2xl  ">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
+          <h3 className="text-3xl font-bold text-gray-800 text-center md:text-left">
+            Quản Lý Phòng Ban
+          </h3>
+
+          <div className="flex flex-col md:flex-row gap-3 items-center">
             <input
-              className="px-4 py-1 border border-gray-500 rounded"
               type="text"
-              placeholder="Tìm phòng ban: "
+              placeholder="Tìm phòng ban..."
               onChange={filterDepartments}
+              className="px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none w-64"
             />
             <Link
-              className="px-4 py-1 bg-[#2a9a9b] rounded-xl text-white"
               to="/admin-dashboard/add-department"
+              className="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-5 py-2 rounded-xl shadow-md transition duration-200"
             >
-              Thêm Phòng Ban Mới
+              Thêm Phòng Ban
             </Link>
           </div>
-          <div className="mt-4 shadow-lg rounded-lg overflow-hidden ">
+        </div>
+
+        {loading ? (
+          <div className="text-center text-gray-600 py-10 text-lg">
+            Vui lòng chờ...
+          </div>
+        ) : (
+          <div className="mt-4 shadow-lg rounded-lg overflow-hidden border ">
             <DataTable
               columns={Cols}
               data={search}
               highlightOnHover
               pagination
+              responsive
               customStyles={{
                 headRow: {
                   style: {
                     fontWeight: "bold",
-                    textAlign: "center",
-                    fontSize: "1.1rem",
+                    fontSize: "15px",
+                    backgroundColor: "#f3f4f6",
+                    color: "#374151",
+                    textTransform: "uppercase",
                   },
                 },
                 rows: {
                   style: {
-                    borderBottom: "1px solid #ddd",
+                    borderBottom: "1px solid #e5e7eb",
                     textAlign: "center",
-                    fontSize: ".9rem",
+                    fontSize: ".95rem",
+                    paddingTop: "12px",
+                    paddingBottom: "12px",
                   },
                 },
               }}
             />
           </div>
-        </div>
-      )}
-    </>
+        )}
+      </div>
+    </div>
   );
 };
 

@@ -9,6 +9,7 @@ const departmentSchema = new mongoose.Schema(
     department_name: {
       type: String,
       required: true,
+      cen,
     },
     desc: {
       type: String,

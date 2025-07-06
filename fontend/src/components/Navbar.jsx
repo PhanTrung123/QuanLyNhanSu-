@@ -7,7 +7,6 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center justify-between h-16 px-6 bg-gradient-to-r from-[#0f766e] to-[#1abc9c] shadow-md text-white">
-      {/* Logo & Company Name */}
       <div className="flex items-center space-x-4">
         <h3 className="text-2xl font-bold font-itim drop-shadow-sm">
           HRM Company

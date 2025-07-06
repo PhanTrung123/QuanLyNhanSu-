@@ -10,10 +10,10 @@ export const ColsEmp = [
     center: true,
   },
   {
-    name: "Tên Nhân Viên",
+    name: "Tên NV",
     selector: (row) => row.name,
     sortable: true,
-    width: "220px",
+    width: "15%",
   },
   {
     name: "Ảnh",
@@ -25,18 +25,18 @@ export const ColsEmp = [
     name: "Phòng Ban",
     selector: (row) => row.department_name,
     sortable: true,
-    width: "180px",
+    width: "15%",
   },
   {
     name: "Ngày Sinh",
     selector: (row) => row.date,
     sortable: true,
-    width: "160px",
+    width: "15%",
   },
   {
     name: "Hành Động",
     cell: (row) => row.action,
-    width: "400px",
+    width: "40%",
     center: true,
   },
 ];
@@ -110,7 +110,7 @@ export const EmployeeBtns = ({ Id }) => {
         className="px-4 py-1 bg-red-500 text-white font-semibold rounded-md shadow hover:bg-red-600 transition duration-300"
         onClick={() => navigate(`/admin-dashboard/employees/leaves/${Id}`)}
       >
-        Leave
+        Nghỉ Phép
       </button>
     </div>
   );

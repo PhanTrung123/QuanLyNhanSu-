@@ -50,13 +50,11 @@ const Table = () => {
     fetchLeaves();
   }, []);
 
-  // tìm kiếm theo tên nhân viên hoặc loại nghỉ phép
   const filteredLeaves = leaves.filter((leave) => {
     const matchesSearch =
       leave.name?.toLowerCase().includes(searchText.toLowerCase()) ||
       leave.leaveType?.toLowerCase().includes(searchText.toLowerCase());
 
-    // tìm kiếm theo tình trạng đơn (status)
     const matchesStatus =
       statusFilter === "All" ||
       leave.status?.toLowerCase().includes(statusFilter.toLowerCase());
@@ -65,56 +63,61 @@ const Table = () => {
   });
 
   return (
-    <div className="p-6  min-h-screen">
-      <div className="max-w-7xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+    <div className="p-8 min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      <div className="max-w-7xl mx-auto bg-white p-10 rounded-3xl shadow-2xl">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">
           Danh Sách Đơn Xin Phép
         </h2>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <input
             type="text"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            placeholder="🔍 Tìm theo tên hoặc loại phép..."
-            className="flex-1 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+            placeholder="Tìm kiếm theo tên hoặc loại phép..."
+            className="flex-1 border border-gray-300 rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow"
           />
-          <div className="flex flex-wrap gap-2">
+
+          <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setStatusFilter("Chờ Xét Duyệt")}
-              className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${
+              className={`px-5 py-2 flex items-center gap-2 rounded-xl font-semibold transition shadow ${
                 statusFilter === "Chờ Xét Duyệt"
-                  ? "bg-yellow-300 text-white"
-                  : "bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
+                  ? "bg-yellow-400 text-white"
+                  : "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
               }`}
             >
               <FiClock /> Chờ Duyệt
             </button>
+
             <button
               onClick={() => setStatusFilter("Đã Duyệt")}
-              className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${
+              className={`px-5 py-2 flex items-center gap-2 rounded-xl font-semibold transition shadow ${
                 statusFilter === "Đã Duyệt"
                   ? "bg-green-500 text-white"
-                  : "bg-green-100 text-green-700 hover:bg-green-200"
+                  : "bg-green-100 text-green-800 hover:bg-green-200"
               }`}
             >
               <FiCheckCircle /> Đã Duyệt
             </button>
+
             <button
               onClick={() => setStatusFilter("Từ Chối")}
-              className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${
+              className={`px-5 py-2 flex items-center gap-2 rounded-xl font-semibold transition shadow ${
                 statusFilter === "Từ Chối"
                   ? "bg-red-500 text-white"
-                  : "bg-red-100 text-red-700 hover:bg-red-200"
+                  : "bg-red-100 text-red-800 hover:bg-red-200"
               }`}
             >
               <FiXCircle /> Từ Chối
             </button>
+
             <button
               onClick={() => setStatusFilter("All")}
-              className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${
+              className={`px-5 py-2 flex items-center gap-2 rounded-xl font-semibold transition shadow ${
                 statusFilter === "All"
                   ? "bg-gray-500 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  : "bg-gray-100 text-gray-800 hover:bg-gray-200"
               }`}
             >
               Tất Cả
@@ -123,7 +126,7 @@ const Table = () => {
         </div>
 
         {loading ? (
-          <div className="text-center text-gray-500 py-10">
+          <div className="text-center text-lg text-gray-600 py-10 italic">
             Đang tải dữ liệu...
           </div>
         ) : (
@@ -138,22 +141,22 @@ const Table = () => {
               headCells: {
                 style: {
                   fontWeight: "bold",
-                  fontSize: "16px",
+                  fontSize: "15px",
                   backgroundColor: "#f3f4f6",
-                  color: "#111827",
+                  color: "#374151",
+                  textTransform: "uppercase",
                 },
               },
               rows: {
                 style: {
-                  fontSize: "15px",
+                  fontSize: "14px",
                   minHeight: "60px",
-                  backgroundColor: "#fff",
                 },
               },
               pagination: {
                 style: {
                   borderTop: "1px solid #e5e7eb",
-                  padding: "20px",
+                  padding: "15px",
                 },
               },
             }}

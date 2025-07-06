@@ -18,23 +18,24 @@ const List = () => {
         });
         if (res.data.success) {
           let seriNumber = 1;
-          const data = await res.data.employees.map((employee) => ({
+          const data = res.data.employees.map((employee) => ({
             _id: employee._id,
             seriNumber: seriNumber++,
-            department_name: employee.department.department_name,
-            name: employee.userId.name,
+            department_name:
+              employee.department?.department_name || "Chưa phân phòng",
+            name: employee.userId?.name || "N/A",
             date: new Date(employee.date).toLocaleDateString(),
             profileImage: (
               <img
                 width={40}
                 height={40}
-                className="py-2"
-                src={`http://localhost:8000/${employee.userId.profileImage}`}
+                className="rounded-full object-cover border border-gray-300"
+                src={`http://localhost:8000/${employee.userId?.profileImage}`}
+                alt="avatar"
               />
             ),
             action: <EmployeeBtns Id={employee._id} />,
           }));
-          console.log(res.data);
 
           setEmployees(data);
           setSearchEmps(data);
@@ -50,54 +51,65 @@ const List = () => {
   }, []);
 
   const filterEmployees = (e) => {
-    const searchEmps = employees.filter((employee) =>
-      employee.name.toLowerCase().startsWith(e.target.value.toLowerCase())
+    const searchValue = e.target.value.toLowerCase();
+    const filtered = employees.filter((employee) =>
+      employee.name.toLowerCase().includes(searchValue)
     );
-    setSearchEmps(searchEmps);
+    setSearchEmps(filtered);
   };
 
   return (
-    <div className="p-6">
-      <div className="text-center">
-        <h3 className="text-2xl font-bold">Thông Tin Nhân Viên</h3>
-      </div>
-      <div className="flex justify-between items-center mt-4">
-        <input
-          className="px-4 py-1 border border-gray-500 rounded"
-          type="text"
-          placeholder="Tìm nhân viên: "
-          onChange={filterEmployees}
-        />
-        <Link
-          className="px-4 py-1 bg-[#2a9a9b] rounded-xl text-white"
-          to="/admin-dashboard/add-employee"
-        >
-          Thêm Nhân Viên Mới
-        </Link>
-      </div>
-      <div className="mt-4 shadow-lg rounded-lg overflow-hidden ">
-        <DataTable
-          columns={ColsEmp}
-          data={searchEmps}
-          highlightOnHover
-          pagination
-          customStyles={{
-            headRow: {
-              style: {
-                fontWeight: "bold",
-                textAlign: "center",
-                fontSize: "1.1rem",
+    <div className="min-h-screen bg-gradient-to-br from-[#f3f4f6] to-[#e0f2f1] p-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-6">
+          <h3 className="text-3xl font-bold ">Danh Sách Nhân Viên</h3>
+          <p className="text-gray-600 mt-2">
+            Quản lý thông tin nhân viên của bạn một cách dễ dàng
+          </p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
+          <input
+            className="px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none w-72"
+            type="text"
+            placeholder="Tìm kiếm theo tên nhân viên..."
+            onChange={filterEmployees}
+          />
+          <Link
+            className="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-5 py-2 rounded-xl shadow-md transition duration-200"
+            to="/admin-dashboard/add-employee"
+          >
+            Thêm Nhân Viên Mới
+          </Link>
+        </div>
+
+        <div className="mt-4 shadow-lg rounded-lg overflow-hidden border">
+          <DataTable
+            columns={ColsEmp}
+            data={searchEmps}
+            highlightOnHover
+            pagination
+            customStyles={{
+              headRow: {
+                style: {
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                  backgroundColor: "#f3f4f6",
+                  color: "#374151",
+                  textTransform: "uppercase",
+                },
               },
-            },
-            rows: {
-              style: {
-                borderBottom: "1px solid #ddd",
-                textAlign: "center",
-                fontSize: ".9rem",
+              rows: {
+                style: {
+                  borderBottom: "1px solid #e5e7eb",
+                  textAlign: "center",
+                  fontSize: "0.95rem",
+                  minHeight: "60px",
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -5,15 +5,20 @@ export const Cols = [
   {
     name: "STT",
     selector: (row) => row.seriNumber,
+    center: true,
+    width: "20%",
   },
   {
     name: "Tên Phòng Ban",
     selector: (row) => row.department_name,
     sortable: true,
+    width: "40%",
   },
   {
     name: "Hành Động",
     selector: (row) => row.action,
+    center: true,
+    width: "40%",
   },
 ];
 

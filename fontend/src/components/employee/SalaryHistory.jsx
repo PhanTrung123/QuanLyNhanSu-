@@ -39,7 +39,7 @@ const SalaryHistory = () => {
           Đang tải dữ liệu...
         </div>
       ) : (
-        <div className="max-w-5xl mx-auto px-4 py-8">
+        <div className="max-w-5xl mx-auto px-4 py-8 bg-gradient-to-br from-[#f3f4f6] to-[#e0f2f1]">
           <h2 className="text-3xl font-bold text-center  mb-6">
             Lịch Sử Lương Cá Nhân
           </h2>

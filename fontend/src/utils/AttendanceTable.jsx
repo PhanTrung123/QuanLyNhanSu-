@@ -34,8 +34,8 @@ export const ColsAtt = [
   },
 ];
 
-// chọn trạng thái chấm công khi nhấn nút
 export const AttendanceBtns = ({ status, employeeId, statusOptions }) => {
+  // chọn trạng thái chấm công khi nhấn nút
   const clickMarkEmp = async (status, employeeId) => {
     const res = await axios.put(
       `http://localhost:8000/api/attendance/update/${employeeId}`,

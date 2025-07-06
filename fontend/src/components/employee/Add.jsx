@@ -243,9 +243,8 @@ const Add = () => {
               required
             >
               <option value="" disabled>
-                --Chọn vai trò
+                --Vai trò
               </option>
-              <option value="admin">Admin</option>
               <option value="employee">Nhân viên</option>
             </select>
           </div>

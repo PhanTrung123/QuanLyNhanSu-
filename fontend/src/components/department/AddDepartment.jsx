@@ -2,8 +2,6 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// ---chức năng thêm các phòng ban mới--- //
-// setDepartment được sử dụng để cập nhật trạng thái khi có thay đổi.
 const AddDepartment = () => {
   const [department, setDepartment] = useState({
     department_name: "",
@@ -11,17 +9,14 @@ const AddDepartment = () => {
   });
   const navigate = useNavigate();
 
-  //Hàm xử lý khi nhập dữ liệu
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDepartment({ ...department, [name]: value });
   };
 
-  //Hàm xử lý khi gửi biểu mẫu
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      //axios.post() để gửi yêu cầu POST đến địa chỉ localhoast
       const res = await axios.post(
         "http://localhost:8000/api/department/add",
         department,
@@ -31,7 +26,6 @@ const AddDepartment = () => {
           },
         }
       );
-      //Nếu res.data.success là true, điều hướng đến trang danh sách phòng ban (navigate("/admin-dashboard/departments"))
       if (res.data.success) {
         navigate("/admin-dashboard/departments");
       }
@@ -43,41 +37,49 @@ const AddDepartment = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100 ">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg  mb-14 ">
-        <h3 className="text-2xl font-bold mb-6">Thêm Phòng Ban</h3>
-        <form onSubmit={handleSubmit}>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#f3f4f6] to-[#e0f2f1] p-4">
+      <div className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-2xl border border-gray-100">
+        <h3 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          Thêm Phòng Ban Mới
+        </h3>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="text-sm font-bold mb-6" htmlFor="department_name">
-              Tên Phòng Ban
+            <label
+              className="block text-gray-600 font-semibold mb-2"
+              htmlFor="department_name"
+            >
+              Tên Phòng Ban <span className="text-red-500">*</span>
             </label>
             <input
-              className="mt-1 w-full p-2 border border-gray-400 rounded-md"
               type="text"
-              placeholder="Nhập tên phòng ban"
               name="department_name"
+              placeholder="Nhập tên phòng ban"
               onChange={handleChange}
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none"
             />
           </div>
-          <div className="mt-3 ">
+
+          <div>
             <label
-              className="block text-sm font-bold text-gray-700"
+              className="block text-gray-600 font-semibold mb-2"
               htmlFor="desc"
             >
               Mô Tả
             </label>
             <textarea
-              className="mt-1 p-2 block w-full border border-gray-400 rounded-md"
               name="desc"
-              placeholder="Nhập nội dung ..."
-              onChange={handleChange}
               rows="4"
+              placeholder="Nhập mô tả phòng ban..."
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-teal-400 focus:outline-none resize-none"
             ></textarea>
           </div>
+
           <button
             type="submit"
-            className="w-7/12 mt-6 bg-[#2a9a9b] font-bold py-2 px-4 rounded-md text-white hover:bg-[#249092]"
+            className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 rounded-xl shadow-md transition duration-200"
           >
             Thêm Phòng Ban
           </button>

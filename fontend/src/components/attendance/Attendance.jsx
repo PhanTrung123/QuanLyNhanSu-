@@ -96,8 +96,10 @@ const Attendance = () => {
             headRow: {
               style: {
                 fontWeight: "bold",
-                textAlign: "center",
-                fontSize: "1.1rem",
+                fontSize: "15px",
+                backgroundColor: "#f3f4f6",
+                color: "#374151",
+                textTransform: "uppercase",
               },
             },
             rows: {
